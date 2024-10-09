@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var currentUrl = "https://pokeapi.co/api/v2/pokemon"; // URL inicial
+    var currentUrl = "https://swapi.dev/api/people"; // URL inicial
     var currentPage = 1;
 
     // Cargar la primera página de Pokémon al cargar la página
@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     // Función para cargar la lista de Pokémon y manejar la paginación
     function getPokemonListV2(url, page) {
-        var limit = 20; // Número de Pokémon por página (por defecto 20 en la API)
+        var limit = 30; // Número de Pokémon por página (por defecto 20 en la API)
         var offset = (page - 1) * limit; // Calcular el offset para la paginación
         var apiUrl = `${url}?offset=${offset}&limit=${limit}`;
 
@@ -41,12 +41,17 @@ $(document).ready(function () {
                 $(".star-container").html(""); // Limpiar el contenedor
                 var listadoPokemon = resp.results;
                 listadoPokemon.forEach(function (pokemon) {
-                    var pokemonId = pokemon.url.split("/")[6]; // ID del Pokémon
+                    var pokemonId = personaje.url.split("/")[5]; // ID del Pokémon
+                    console.log("Character ID:", pokemonId);
                     var template = `
                         <div class="star">
-                            <button type="button" class="btn btn-primary pokemon-btn" data-id="${pokemonId}" data-bs-toggle="modal" data-bs-target="#modalDetail">
-                                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" width="500px" alt="${pokemon.name}">
-                            </button>
+                            <div>
+                                <a type="button" class="btn btn-primary pokemon-btn" data-id="${pokemonId}" data-name="${pokemon.name}" data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-capitalize" style="text-align: center;">${personaje.name}</h5>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     `;
                     $(".star-container").append(template);
@@ -60,11 +65,11 @@ $(document).ready(function () {
 
     // Manejo del click en los Pokémon para abrir el modal y cargar sus detalles
     $(document).on("click", ".pokemon-btn", function () {
-        var pokemonId = $(this).data("id");
+        var id = $(this).data("id");
 
         // Hacer una llamada AJAX para obtener los detalles del Pokémon
         $.ajax({
-            url: `https://pokeapi.co/api/v2/pokemon/${pokemonId}`,
+            url: `https://swapi.dev/api/people/${id}`,
             method: "GET",
         }).done(function (pokemonData) {
             // Insertar los detalles en el modal
