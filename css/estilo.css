@@ -1,4 +1,5 @@
 body{
+    background-color: rgba(0, 0, 0, 0.466);
     background-image: url(../recursos/img/wallpaper-iniciales.webp);
 }
 .star-container {
@@ -9,8 +10,8 @@ body{
 }
 
 .star {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     background-color: none;
     background-repeat: no-repeat;
     display: flex;
@@ -26,5 +27,5 @@ body{
 }
 
 .star:hover img {
-    transform: scale(1.2);
+    transform: scale(1.4);
 }
