@@ -16,7 +16,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
             <div class="container">
                 <a class="navbar-brand" id="imgLogo" href="#">
-                    <img src="../recursos/img/Pokedex-letras.png" alt="Pokedex Logo" width="20%">
+                    <img src="../recursos/img/generatedtext.png" alt="Pokedex Logo" width="40%">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@
                 <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDetail">
                     <img src="../recursos/img/001.png" width="500px" alt="Bulbasaur">
                 </a>
-                
+
                 <p id="data-content"></p>
             </div>
 
@@ -67,11 +67,22 @@
                     <div class="modal-body">
                         <div id="pokemonDetails">
                             <!-- Aquí se insertarán dinámicamente los detalles del Pokémon -->
-                            <p><strong>Nombre:</strong> <span id="pokemonName"></span></p>
-                            <p><strong>ID:</strong> <span id="pokemonId"></span></p>
-                            <img id="pokemonImage" src="" alt="Imagen del Pokémon" />
-                            <p><strong>Altura:</strong> <span id="pokemonHeight"></span></p>
-                            <p><strong>Peso:</strong> <span id="pokemonWeight"></span></p>
+                            <div class="row">
+                                <div class="col-md-6 border-end">
+                                    <p><strong>Nombre:</strong> <span id="pokemonName"></span></p>
+                                    <p><strong>Altura:</strong> <span id="pokemonHeight"></span></p>
+                                    <p><strong>Peso:</strong> <span id="pokemonWeight"></span></p>
+                                    <p><strong>Año Nacimiento:</strong> <span id="nacYear"></span></p>
+                                    <p><strong>Género:</strong> <span id="genero"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Planeta Natal:</strong> <span id="origen"></span></p>
+                                    <p><strong>Especie:</strong> <span id="especie"></span></p>
+                                    <p><strong>Películas:</strong> <span id="peliculas"></span></p>
+                                    <p><strong>Vehículos:</strong> <span id="vehiculos"></span></p>
+                                    <p><strong>Naves:</strong> <span id="naves"></span></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
