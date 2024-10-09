@@ -61,23 +61,32 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalPokemonTitle">Detalles del Pokémon</h5>
+                        <h5 class="modal-title" id="modalPokemonTitle">Detalles del Personaje</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div id="pokemonDetails">
+                        <div class="d-flex row" id="pokemonDetails">
                             <!-- Aquí se insertarán dinámicamente los detalles del Pokémon -->
-                            <p><strong>Nombre:</strong> <span id="pokemonName"></span></p>
-                            <p><strong>ID:</strong> <span id="pokemonId"></span></p>
-                            <img id="pokemonImage" src="" alt="Imagen del Pokémon" />
-                            <p><strong>Altura:</strong> <span id="pokemonHeight"></span></p>
-                            <p><strong>Peso:</strong> <span id="pokemonWeight"></span></p>
+                            <div style="text-align: left; width: 49%; border-right: 1px black;">
+                                <p><strong>Nombre:</strong> <span id="pokemonName"></span></p>
+                                <p><strong>ID:</strong> <span id="pokemonId"></span></p>
+                                <p><strong>Altura:</strong> <span id="pokemonHeight"></span></p>
+                                <p><strong>Peso:</strong> <span id="pokemonWeight"></span></p>
+                                <p><strong>Año Nacimiento:</strong> <span id="nacYear"></span></p>
+                                <p><strong>Género:</strong> <span id="genero"></span></p>
+                            </div>
+                            <div style="text-align: left; width: 49%;">
+                                <p><strong>Planeta Natal:</strong> <span id="origen"></span></p>
+                                <p><strong>Especie:</strong> <span id="especie"></span></p>
+                                <p><strong>Peliculas:</strong> <span id="peliculas"></span></p>
+                                <p><strong>Vehículos:</strong> <span id="vehiculos"></span></p>
+                                <p><strong>Naves:</strong> <span id="naves"></span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <nav aria-label="Page navigation">
             <div class="mt-5">
                 <ul class="pagination pagination-lg justify-content-center">
