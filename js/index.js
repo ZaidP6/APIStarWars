@@ -27,8 +27,7 @@ $(document).ready(function () {
 
     // Función para cargar la lista de personajes
     function getCharacterList(url, page) {
-        var limit = 10; // Número de personajes por página
-        var offset = (page - 1) * limit; // Calcular el offset para la paginación
+        var limit = 82; // Número de personajes por página
         var apiUrl = `${url}?page=${page}`; // swapi usa paginación basada en 'page'
 
         $(".star-container").html("<img src='loading.gif' />"); // Mostrar loader
@@ -75,28 +74,61 @@ $(document).ready(function () {
             url: `https://swapi.dev/api/people/${personajeId}/`,
             method: "GET",
         }).done(function (personajeData) {
-            // Insertar los detalles en el modal
-            $("#modalDetail .modal-title").text(personajeData.name);
-            $("#modalDetail .modal-body").html(`
-                <div class="row">
-                    <div class="col-md-6 border-end">
-                        <p><strong>Altura:</strong> ${personajeData.height} cm</p>
-                        <p><strong>Peso:</strong> ${personajeData.mass} kg</p>
-                        <p><strong>Año Nacimiento:</strong> ${personajeData.birth_year}</p>
-                        <p><strong>Género:</strong> ${personajeData.gender}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p><strong>Planeta Natal:</strong> ${personajeData.homeworld}</p>
-                        <p><strong>Películas:</strong> ${personajeData.films.join(", ")}</p>
-                        <p><strong>Especie:</strong> ${personajeData.species}</p>
-                        <p><strong>Vehículos:</strong> ${personajeData.vehicles.join(", ")}</p>
-                        <p><strong>Naves:</strong> ${personajeData.starships.join(", ")}</p>
-                    </div>
-                </div>
-            `);
+            // Obtener los nombres de las películas
+            let filmPromises = personajeData.films.map(filmUrl => {
+                return $.get(filmUrl).then(filmData => filmData.title);
+            });
 
-            // Mostrar el modal
-            $("#modalDetail").modal("show");
+            // Obtener el nombre del planeta natal
+            let homeworldPromise = $.get(personajeData.homeworld).then(homeworldData => homeworldData.name);
+
+            // Obtener los nombres de las especies
+            let speciesPromises = personajeData.species.map(speciesUrl => {
+                return $.get(speciesUrl).then(speciesData => speciesData.name);
+            });
+
+            // Obtener los nombres de los vehículos
+            let vehiclePromises = personajeData.vehicles.map(vehicleUrl => {
+                return $.get(vehicleUrl).then(vehicleData => vehicleData.name);
+            });
+
+            // Obtener los nombres de las naves
+            let starshipPromises = personajeData.starships.map(starshipUrl => {
+                return $.get(starshipUrl).then(starshipData => starshipData.name);
+            });
+
+            // Esperar a que todas las promesas se resuelvan
+            $.when(...filmPromises, homeworldPromise, ...speciesPromises, ...vehiclePromises, ...starshipPromises).done(function (...results) {
+                // results contiene los títulos de las películas, el nombre del planeta, los nombres de las especies, los nombres de los vehículos y las naves
+                let filmTitles = results.slice(0, filmPromises.length);
+                let homeworldName = results[filmPromises.length];
+                let speciesNames = results.slice(filmPromises.length + 1, filmPromises.length + 1 + speciesPromises.length);
+                let vehicleNames = results.slice(filmPromises.length + 1 + speciesPromises.length, filmPromises.length + 1 + speciesPromises.length + vehiclePromises.length);
+                let starshipNames = results.slice(filmPromises.length + 1 + speciesPromises.length + vehiclePromises.length);
+
+                // Insertar los detalles en el modal
+                $("#modalDetail .modal-title").text(personajeData.name);
+                $("#modalDetail .modal-body").html(`
+                    <div class="row">
+                        <div class="col-md-6 border-end">
+                            <p><strong>Altura:</strong> ${personajeData.height} cm</p>
+                            <p><strong>Peso:</strong> ${personajeData.mass} kg</p>
+                            <p><strong>Año Nacimiento:</strong> ${personajeData.birth_year}</p>
+                            <p><strong>Género:</strong> ${personajeData.gender}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Planeta Natal:</strong> <span id="homeworldName">${homeworldName}</span></p>
+                            <p><strong>Películas:</strong> <span id="filmList">${filmTitles.join(", ")}</span></p>
+                            <p><strong>Especie:</strong> <span id="speciesName">${speciesNames.join(", ")}</span></p>
+                            <p><strong>Vehículos:</strong> <span id="vehicleList">${vehicleNames.join(", ")}</span></p>
+                            <p><strong>Naves:</strong> <span id="starshipList">${starshipNames.join(", ")}</span></p>
+                        </div>
+                    </div>
+                `);
+
+                // Mostrar el modal
+                $("#modalDetail").modal("show");
+            });
         }).fail(function () {
             alert("Error al cargar los detalles del personaje.");
         });
@@ -112,22 +144,25 @@ $(document).ready(function () {
 
         // Agregar botón de anterior
         pagination.append(`
-                < li class="page-item ${page === 1 ? "disabled" : ""}" >
-                    <a class="page-link" href="#" aria-label="Previous">&laquo;</a>
-            </ > `);
+            <li class="page-item ${page === 1 ? "disabled" : ""}">
+                <a class="page-link" href="#" aria-label="Previous">&laquo;</a>
+            </li>
+        `);
 
         // Mostrar hasta 5 páginas en la paginación
         for (var i = 1; i <= totalPages; i++) {
             pagination.append(`
-                < li class="page-item ${i === page ? "active" : ""}" >
+                <li class="page-item ${i === page ? "active" : ""}">
                     <a class="page-link" href="#">${i}</a>
-                </ > `);
+                </li>
+            `);
         }
 
         // Agregar botón de siguiente
         pagination.append(`
-                < li class="page-item ${page === totalPages ? "disabled" : ""}" >
-                    <a class="page-link" href="#" aria-label="Next">&raquo;</a>
-            </ > `);
+            <li class="page-item ${page === totalPages ? "disabled" : ""}">
+                <a class="page-link" href="#" aria-label="Next">&raquo;</a>
+            </li>
+        `);
     }
 });
