@@ -45,7 +45,7 @@ $(document).ready(function () {
                     var template = `
                         <div class="star">
                             <div>
-                                <a type="button" class="btn btn-primary personaje-btn" data-id="${personajeId}" data-name="${personaje.name}" data-bs-toggle="modal" data-bs-target="#modalDetail">
+                                <a type="button" class="btn btn-danger personaje-btn btn-outline-light btn-lg" data-id="${personajeId}" data-name="${personaje.name}" data-bs-toggle="modal" data-bs-target="#modalDetail">
                                     <div class="card-body">
                                         <h5 class="card-title text-capitalize" style="text-align: center;">${personaje.name}</h5>
                                     </div>
